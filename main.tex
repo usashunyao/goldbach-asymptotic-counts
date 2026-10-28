@@ -1,0 +1,805 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{needspace}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,
+  pdftitle={Asymptotic Counts of Goldbach Decompositions in the Nonnegative Polynomial Semiring},
+  pdfsubject={Uniform fixed-degree counting of ordered sums of multiplicative semiring atoms}}
+\urlstyle{same}
+
+\newcommand{\N}{\mathbb N}
+\newcommand{\Nzero}{\mathbb N_0}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\F}{\mathbb F}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\Ex}{\mathbb E}
+\newcommand{\Atoms}{\mathcal A}
+\newcommand{\Sseries}{\mathfrak S}
+\newcommand{\ind}{\mathbf 1}
+\DeclareMathOperator{\cont}{cont}
+\DeclareMathOperator{\TV}{TV}
+\DeclareMathOperator{\Law}{Law}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title[Asymptotic Goldbach counts]{Asymptotic Counts of Goldbach Decompositions\\
+in the Nonnegative Polynomial Semiring}
+\author{Shunyao Yan}
+% \address{Institution or affiliation, if applicable}
+\email{shunyaoyan2009@gmail.com}
+\date{Draft revised October 27, 2026}
+\subjclass[2020]{Primary 11P32; Secondary 16Y60, 11N37}
+\keywords{Polynomial semiring, multiplicative atom, Goldbach decomposition,
+singular series, primitive polynomial, uniform asymptotic counting}
+
+\begin{document}
+
+\begin{abstract}
+For fixed integers $d\ge1$ and $k\ge2$, we count ordered representations
+of a polynomial $f=\sum_{i=0}^d c_i x^i\in\Nzero[x]$ as a sum of
+exactly $k$ multiplicative atoms of $\Nzero[x]$. As the smallest
+coefficient tends to infinity, we prove an asymptotic formula whose
+main term is the total number of coefficientwise decompositions
+multiplied by an explicit, positive Euler product. The product depends
+on the target only through the prime divisors of its content. The error
+is uniform in the relative sizes of the coefficients. The proof combines
+residue counting in weak compositions, a large-prime estimate controlled
+by the shortest coefficient row, and a finite-field comparison of
+primitive and atomic summands. We also obtain a content-independent
+positive lower bound for the singular series, an explicit formula for
+two summands, and the average value $\zeta(d+1)^{-k}$ of the normalized
+representation count over expanding coefficient boxes.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction and main result}\label{sec:introduction}
+
+Goldbach-type questions for polynomial rings concern representations as
+sums of multiplicatively irreducible polynomials; see, for example,
+Pollack~\cite{Pollack}. In a semiring of nonnegative polynomials, the
+absence of subtraction changes both the multiplicative structure and
+the available additive representations. Gotti and Polo~\cite{GottiPolo}
+studied factorization in polynomial semidomains. Liao and
+Polo~\cite{LiaoPolo} proved a two-atom Goldbach theorem for nonmonomial
+Laurent polynomials with coefficient sum greater than three, and Kaplan
+and Polo~\cite{KaplanPolo} extended this direction to more general
+Laurent polynomial and series semidomains. In an earlier unpublished work, Mittal, Pieleanu, Yan studied the asymptotic proportion of two-atom Goldbach decompositions in $\Nzero[x]$. Building on this work, we generalize the analysis to ordered decompositions into exactly $k$ multiplicative atoms for every fixed integer $k\ge2$, obtaining an explicit asymptotic formula.
+
+Here we study an enumeration problem in the ordinary semiring
+$\Nzero[x]$. We fix both the degree of the target and the number of
+summands, and allow all target coefficients to grow, without requiring
+comparable rates of growth. The main term records the congruence
+dependence between summands whose sum is prescribed. In particular,
+the individual densities of primitive coefficient vectors cannot
+simply be multiplied: the content of the target remains visible in
+the answer. The familiar zeta factors in primitive-vector density
+\cite{Nymann} reappear after averaging over the target.
+
+Throughout, $\N=\{1,2,\ldots\}$ and $\Nzero=\{0,1,2,\ldots\}$.
+An \emph{atom} of $\Nzero[x]$ is a nonzero nonunit $h$ such that
+$h=uv$, with $u,v\in\Nzero[x]$, implies that one of $u,v$ is a unit.
+The only unit is $1$; write $\Atoms$ for the set of atoms.
+Atomicity in this paper is always multiplicative atomicity in
+$\Nzero[x]$, not irreducibility over $\Q$. For example, $1+x^3$ is
+an atom of $\Nzero[x]$, although it factors in $\Q[x]$.
+
+For $k\ge2$, define
+\[
+G_k(f)=\#\bigl\{(g_1,\ldots,g_k)\in\Atoms^k:
+                       g_1+\cdots+g_k=f\bigr\}.
+\]
+The summands are ordered, repetitions are allowed, and their degrees
+need not equal the degree of $f$. Prime constants and the atom $x$ are
+included. For
+\begin{equation}\label{eq:target}
+f(x)=\sum_{i=0}^d c_i x^i,\qquad c_i\in\N,
+\end{equation}
+put
+\begin{equation}\label{eq:notation}
+n=d+1,\qquad C=\gcd(c_0,\ldots,c_d),\qquad
+M=\min_{0\le i\le d}(c_i+1).
+\end{equation}
+The number of all ordered coefficientwise decompositions, without any
+atomicity condition, is
+\begin{equation}\label{eq:volume}
+V_k(f)=\prod_{i=0}^d\binom{c_i+k-1}{k-1}.
+\end{equation}
+Here the notation $V_k$ denotes a count, not a continuous volume.
+
+For a prime $p$, set
+\begin{equation}\label{eq:rho}
+\rho_{p,n,k}(C)
+=(1-p^{-n})^k
+ +(-1)^k\bigl(p^n\ind_{p\mid C}-1\bigr)p^{-nk},
+\end{equation}
+and define the singular series
+\begin{equation}\label{eq:series}
+\Sseries_{n,k}(C)=\prod_p\rho_{p,n,k}(C).
+\end{equation}
+
+\begin{theorem}[Uniform fixed-degree, fixed-length asymptotic]
+\label{thm:main}
+Fix $d\ge1$ and $k\ge2$, and let $f$ satisfy \eqref{eq:target}.
+The product \eqref{eq:series} converges absolutely and satisfies
+\begin{equation}\label{eq:positive}
+\frac{3}{4\zeta(d+1)^k}\le\Sseries_{d+1,k}(C)\le1.
+\end{equation}
+As $M\to\infty$,
+\begin{equation}\label{eq:main}
+G_k(f)=
+\bigl(\Sseries_{d+1,k}(C)+o_{d,k}(1)\bigr)
+\prod_{i=0}^d\binom{c_i+k-1}{k-1}.
+\end{equation}
+The error is uniform over all positive coefficient vectors: for every
+$\varepsilon>0$ there exists $M_0(d,k,\varepsilon)$ such that
+\[
+\left|\frac{G_k(f)}{V_k(f)}-\Sseries_{d+1,k}(C)\right|
+\le\varepsilon
+\quad\text{whenever }M\ge M_0(d,k,\varepsilon).
+\]
+Consequently, \eqref{eq:main} is also a uniform relative asymptotic,
+and every target with sufficiently large $M$ is a sum of exactly $k$
+atoms.
+\end{theorem}
+
+The parameters $d$ and $k$ are fixed in this theorem. No bound on
+$\max_i c_i/\min_i c_i$ is imposed. In particular, the content $C$
+may vary with the target and need not tend to a limit. We make no
+claim here for growing $d$ or $k$, or for targets with fixed zero
+coefficients.
+
+The proof has two parts. First we count decompositions with primitive
+coefficient columns and derive their local factors by
+inclusion--exclusion. The large-prime tail is controlled using the
+shortest row of coefficients. Second, we show that primitive and atomic
+columns disagree with probability tending uniformly to zero. For that
+step, we prove the needed irreducibility-density estimate directly for
+the nonuniform column distributions arising from decompositions.
+
+\section{Coefficient distributions and residues}\label{sec:residues}
+
+For a nonnegative integer $c$, let
+\[
+\mathcal C_k(c)=\{(a_1,\ldots,a_k)\in\Nzero^k:a_1+\cdots+a_k=c\}.
+\]
+Choose a vector uniformly from $\mathcal C_k(c_i)$, independently for
+each $i=0,\ldots,d$. Writing its entries as $A_{i,1},\ldots,A_{i,k}$
+and setting
+\[
+g_j(x)=\sum_{i=0}^d A_{i,j}x^i
+\]
+gives the uniform distribution on the $V_k(f)$ decompositions in
+\eqref{eq:volume}. Rows are independent; columns generally are not.
+
+The content of a nonzero integer polynomial is the nonnegative gcd of
+its coefficients, and we set $\cont(0)=0$. A polynomial or coefficient
+column is \emph{primitive} when its content is one. Let $P_k(f)$ count
+the decompositions whose $k$ columns are all primitive. Thus
+$P_k(f)/V_k(f)$ and $G_k(f)/V_k(f)$ are probabilities in the preceding
+model.
+
+For probability measures on a finite set, write
+\[
+\TV(\mu,\nu)=\frac12\sum_a|\mu(a)-\nu(a)|.
+\]
+The discrepancy on any event is at most this quantity. Marginalization
+cannot increase it, and for product measures it is at most the sum of
+the discrepancies of the individual factors. The latter assertion
+follows by telescoping the difference of the two products.
+
+\begin{lemma}[Residues of a weak composition]\label{lem:row}
+Let $q\ge2$, and choose a uniform vector from $\mathcal C_k(c)$.
+The compatible residue vectors modulo $q$ are those whose coordinate
+sum is $c$ modulo $q$, and there are $q^{k-1}$ of them. If $c\ge2kq$,
+the residue law has total-variation distance at most
+\begin{equation}\label{eq:rowTV}
+L_k\frac qc,\qquad
+L_k=\frac{k(k-1)}2\left(\frac32\right)^{k-2},
+\end{equation}
+from the uniform law on these compatible vectors.
+\end{lemma}
+
+\begin{proof}
+Fix representatives $r_1,\ldots,r_k\in\{0,\ldots,q-1\}$ with compatible
+sum, and write $t=\sum_jr_j$. The entries of a lift are
+$r_j+qb_j$, where
+\[
+b_1+\cdots+b_k=(c-t)/q.
+\]
+The exact number of lifts is
+\begin{equation}\label{eq:lifts}
+\binom{(c-t)/q+k-1}{k-1},
+\end{equation}
+interpreted as zero when $t>c$. Under $c\ge2kq$ we have $t<c$.
+The ratio of the probability of this residue vector to $q^{1-k}$ is
+\[
+\prod_{h=1}^{k-1}\frac{c-t+qh}{c+h}.
+\]
+Each factor differs from one in absolute value by at most $kq/c\le1/2$.
+Telescoping the product gives a difference from one of at most
+\[
+(k-1)\left(\frac32\right)^{k-2}\frac{kq}{c}.
+\]
+Averaging this bound over the $q^{k-1}$ residues and dividing by two
+proves \eqref{eq:rowTV}.
+\end{proof}
+
+Set
+\begin{equation}\label{eq:Ank}
+A_{n,k}=nL_k.
+\end{equation}
+
+\begin{corollary}[Matrix and column residues]\label{cor:matrix}
+If $M-1\ge2kq$, the full coefficient matrix modulo $q$ differs in total
+variation by at most
+\begin{equation}\label{eq:matrixTV}
+A_{n,k}\frac{q}{M-1}
+\end{equation}
+from the uniform law on matrices with the prescribed row sums modulo
+$q$. Under this comparison law, each designated column is uniform on
+$(\Z/q\Z)^n$. The same bound therefore holds for its marginal law.
+\end{corollary}
+
+\begin{proof}
+Apply Lemma~\ref{lem:row} to each row and add the bounds. In a
+compatible row, fixing one entry leaves $q^{k-2}$ choices for the
+remaining entries, including the case $k=2$. Thus that entry is
+uniform modulo $q$. Independence of the rows proves the column
+assertion.
+\end{proof}
+
+\begin{lemma}[A decreasing entry distribution]\label{lem:decreasing}
+A designated entry in a uniform vector from $\mathcal C_k(c)$ has mass
+function
+\begin{equation}\label{eq:mass}
+w_c(a)=\frac{\binom{c-a+k-2}{k-2}}{\binom{c+k-1}{k-1}},
+\qquad0\le a\le c.
+\end{equation}
+It is nonincreasing, and
+\[
+w_c(0)=\frac{k-1}{c+k-1}.
+\]
+For every positive integer $p$,
+\begin{equation}\label{eq:divisibility}
+\Prob(p\mid A_{i,j})\le w_{c_i}(0)+\frac1p.
+\end{equation}
+In particular, if
+\begin{equation}\label{eq:beta}
+\beta_M=\frac{k-1}{M+k-2},
+\end{equation}
+then $w_{c_i}(0)\le\beta_M$ for every row, and
+\begin{equation}\label{eq:kp}
+\Prob(p\mid A_{i,j})\le\frac{k}{p}
+\quad\text{for }p\le M-1.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fixing the designated entry leaves a weak composition of $c-a$ into
+$k-1$ parts, which gives \eqref{eq:mass}. The binomial coefficient in
+the numerator is nonincreasing in $a$.
+
+For any nonincreasing probability mass $w$ on $\Nzero$, extended by zero
+outside its support, the disjoint blocks
+$\{(m-1)p+1,\ldots,mp\}$ give
+\[
+p\sum_{m\ge1}w(mp)\le\sum_{a\ge1}w(a)\le1.
+\]
+Separate the zero entry to obtain \eqref{eq:divisibility}. Finally,
+$\beta_M\le(k-1)/(M-1)\le(k-1)/p$ when $p\le M-1$.
+\end{proof}
+
+\section{The primitive count and its singular series}\label{sec:primitive}
+
+\begin{lemma}[The local probability]\label{lem:local}
+Under uniform compatible residues modulo a prime $p$, the probability
+that none of the $k$ columns is zero is $\rho_{p,n,k}(C)$ from
+\eqref{eq:rho}.
+\end{lemma}
+
+\begin{proof}
+Put $Q=p^n$ and $\mathbf c=(c_0,\ldots,c_d)\bmod p$. There are
+$Q^{k-1}$ tuples of vectors in $\F_p^n$ with sum $\mathbf c$.
+Requiring any specified $r<k$ columns to vanish has probability
+$Q^{-r}$. Requiring all $k$ to vanish has probability
+$\ind_{\mathbf c=0}Q^{1-k}$. Inclusion--exclusion therefore gives
+\[
+\sum_{r=0}^{k-1}(-1)^r\binom kr Q^{-r}
++(-1)^k\ind_{\mathbf c=0}Q^{1-k}
+=(1-Q^{-1})^k+(-1)^k(Q\ind_{\mathbf c=0}-1)Q^{-k}.
+\]
+The condition $\mathbf c=0$ is exactly $p\mid C$.
+\end{proof}
+
+For an integer $y\ge2$, write
+\begin{equation}\label{eq:cutoffs}
+q_y=\prod_{p\le y}p,
+\qquad
+T_n(y)=\sum_{m>y}m^{-n}
+\le\frac{y^{1-n}}{n-1}.
+\end{equation}
+The final inequality uses $n\ge2$.
+
+\begin{proposition}[Convergence and uniform positivity]\label{prop:product}
+For all $n,k\ge2$ and $C\ge1$, the series \eqref{eq:series} converges
+absolutely, satisfies \eqref{eq:positive}, and obeys
+\begin{equation}\label{eq:producttail}
+0\le\prod_{p\le y}\rho_{p,n,k}(C)-\Sseries_{n,k}(C)
+\le kT_n(y).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Each local factor is a probability. A union bound over the $k$ zero-column
+events gives
+\[
+0\le1-\rho_{p,n,k}(C)\le kp^{-n}.
+\]
+The sum of the right side converges. Telescoping finite products of
+numbers in $[0,1]$, followed by passage to the limit, proves
+\eqref{eq:producttail}.
+
+For the positive lower bound, write
+\[
+\rho_{p,n,k}(C)=(1-p^{-n})^k(1+e_p),
+\qquad
+e_p=\frac{(-1)^k(p^n\ind_{p\mid C}-1)}{(p^n-1)^k}.
+\]
+If $k$ is even, the only negative case is $p\nmid C$, with
+$|e_p|=(p^n-1)^{-k}$. If $k$ is odd, then $k\ge3$ and the only
+negative case is $p\mid C$, with $|e_p|=(p^n-1)^{1-k}$.
+In either case, the negative part $u_p=\max(0,-e_p)$ satisfies
+\[
+u_p\le(p^n-1)^{-2}.
+\]
+Consequently,
+\begin{equation}\label{eq:quarter}
+\sum_pu_p
+\le\sum_p\frac1{(p^2-1)^2}
+\le\frac13\sum_{m=2}^{\infty}\frac1{m^2-1}
+=\frac14.
+\end{equation}
+For the last equality, use
+$1/(m^2-1)=\tfrac12((m-1)^{-1}-(m+1)^{-1})$.
+
+For every finite prime set,
+$\prod_p(1+e_p)\ge\prod_p(1-u_p)\ge1-\sum_pu_p\ge3/4$.
+The Euler product for $\zeta(n)$ now gives
+$\Sseries_{n,k}(C)\ge3/(4\zeta(n)^k)$.
+This also proves that no local factor or limiting product vanishes.
+\end{proof}
+
+\begin{lemma}[Uniform removal of large common primes]\label{lem:tail}
+The probability that some column has a common prime divisor greater
+than $y$ is at most
+\begin{equation}\label{eq:largetail}
+k\beta_M+k^{n+1}T_n(y).
+\end{equation}
+Here a zero column is regarded as divisible by every prime.
+\end{lemma}
+
+\begin{proof}
+Choose a row of minimum total $M-1$. For one designated column, its entry
+in that row is zero with probability at most $\beta_M$. Otherwise any
+prime dividing the entire column is at most $M-1$.
+
+For a prime $p$ in that range, the entries of the designated column
+are independent across rows. By Lemma~\ref{lem:decreasing}, the
+probability that they are all divisible by $p$ is at most $(k/p)^n$.
+Summing over $y<p\le M-1$ and then over the $k$ columns gives
+\eqref{eq:largetail}. The bound contains no largest-coefficient term.
+\end{proof}
+
+\begin{proposition}[Primitive decompositions]\label{prop:primitive}
+If $M-1\ge2kq_y$, then
+\begin{equation}\label{eq:primitiveerror}
+\left|\frac{P_k(f)}{V_k(f)}-\Sseries_{n,k}(C)\right|
+\le
+A_{n,k}\frac{q_y}{M-1}
++k\beta_M+(k^{n+1}+k)T_n(y).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $\mathcal E_y$ be the event that no column is zero modulo any
+prime at most $y$. The Chinese remainder theorem identifies the
+uniform compatible law modulo $q_y$ with the product of its
+compatible laws at those primes. Lemma~\ref{lem:local} and
+Corollary~\ref{cor:matrix} give
+\[
+\left|\Prob(\mathcal E_y)-\prod_{p\le y}\rho_{p,n,k}(C)\right|
+\le A_{n,k}\frac{q_y}{M-1}.
+\]
+Primitivity of every column implies $\mathcal E_y$. Conversely, a
+column that passes this finite sieve but is not primitive has a common
+prime greater than $y$. Zero columns are also covered by
+Lemma~\ref{lem:tail}. Apply that lemma and then
+\eqref{eq:producttail}.
+\end{proof}
+
+\section{From primitive columns to atomic summands}\label{sec:atoms}
+
+\begin{lemma}[Atomicity and content]\label{lem:atomfacts}
+The constant atoms of $\Nzero[x]$ are the positive integer primes, and
+the only atom with zero constant coefficient is $x$. Every
+nonconstant atom is primitive. A primitive nonconstant polynomial
+that is irreducible over $\Q$ is an atom of $\Nzero[x]$.
+\end{lemma}
+
+\begin{proof}
+Degree comparison shows that an invertible polynomial must be constant,
+and the only unit in $\Nzero$ is $1$. A factorization of a positive
+constant likewise has constant factors, proving the prime assertion.
+A nonzero zero-constant polynomial is $xh$; this is atomic only when
+$h=1$, and $x$ is indeed an atom.
+
+If a nonconstant polynomial has content $c>1$, factoring out $c$
+is a product of two nonunits. Thus a nonconstant atom is primitive.
+For a primitive nonconstant polynomial, a constant factor in
+$\Nzero[x]$ must be $1$. Any nontrivial factorization would therefore
+have two positive-degree factors, contradicting rational
+irreducibility.
+\end{proof}
+
+For instance, $2+2x=2(1+x)$ is irreducible as a degree-one polynomial
+over $\Q$, but is not a semiring atom. Conversely, $1+x^3$ is an
+atom: in a nonnegative factorization its positive factor exponents
+would all have to occur in $\{0,3\}$, which precludes two positive-degree
+factors. These examples explain why primitivity is needed in the
+comparison.
+
+The following elementary count provides the only finite-field
+irreducibility input. We include its proof; the standard finite-field
+construction and subfield facts are described in Conrad~\cite{Conrad}.
+
+\begin{lemma}[A positive density of modular certificates]\label{lem:finitefield}
+Fix $d\ge2$. If $p\ge4d^2$ is prime, the proportion of vectors in
+$\F_p^{d+1}$ representing an irreducible polynomial of degree exactly
+$d$ is at least
+\begin{equation}\label{eq:alphad}
+\alpha_d=\frac1{4d}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In a splitting field over $\F_p$, the roots of $X^{p^d}-X$ form a field:
+Frobenius gives closure under addition and multiplication, and a
+nonzero root has its inverse in the same set. The derivative is $-1$,
+so this field has exactly $p^d$ elements.
+
+An element's degree $r$ over $\F_p$ divides $d$. If $r<d$, it is a
+root of $X^{p^r}-X$, and $r\le d/2$. Thus at most
+\[
+\sum_{\substack{r\mid d\\r<d}}p^r\le d p^{d/2}\le\tfrac12p^d
+\]
+elements have degree smaller than $d$, where the final inequality
+holds for the stated range of $p$.
+
+Every monic irreducible of degree $d$ accounts for at most $d$ elements.
+There are therefore at least $p^d/(2d)$ such polynomials. Their $p-1$
+nonzero scalar multiples are all distinct, so their proportion among
+$p^{d+1}$ coefficient vectors is at least
+\[
+\frac{(p-1)p^d}{2d\,p^{d+1}}
+=\frac{1-1/p}{2d}\ge\frac1{4d}.
+\]
+\end{proof}
+
+\begin{lemma}[Rational reducibility under the column law]
+\label{lem:Qreducible}
+Fix $d\ge2$, and choose distinct primes
+$p_1,\ldots,p_\ell\ge4d^2$. Put
+\[
+R_\ell=p_1\cdots p_\ell.
+\]
+If $M-1\ge2kR_\ell$, then a designated summand column satisfies
+\begin{equation}\label{eq:Qerror}
+\Prob\bigl(\deg g_j=d,\ g_j\text{ reducible over }\Q\bigr)
+\le(1-\alpha_d)^\ell
++A_{n,k}\frac{R_\ell}{M-1}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+A rationally reducible integer polynomial of degree $d$ has, by Gauss's
+lemma, a factorization into two positive-degree integer polynomials.
+If its reduction has degree $d$, the leading coefficients of both
+factors remain nonzero, so both factor degrees are preserved. Its
+reduction cannot then be an irreducible of degree $d$.
+
+Under uniform column residues modulo $R_\ell$, CRT makes the reductions
+at the $\ell$ primes independent. By Lemma~\ref{lem:finitefield},
+the probability that all $\ell$ degree-preserving irreducibility
+certificates fail is at most $(1-\alpha_d)^\ell$. Transfer this event
+bound to the actual column law using Corollary~\ref{cor:matrix}.
+\end{proof}
+
+\begin{remark}[Degree preservation is essential]\label{rem:degree}
+The polynomial
+\[
+(1+2x)(1+x)=1+3x+2x^2
+\]
+is rationally reducible, but reduces modulo two to the irreducible
+linear polynomial $1+x$. Lemma~\ref{lem:Qreducible} uses irreducible
+reductions of degree \emph{exactly} $d$ and therefore does not make
+this erroneous inference.
+\end{remark}
+
+\begin{proposition}[Uniform primitive-to-atom comparison]\label{prop:comparison}
+For $d\ge2$ and the choices in Lemma~\ref{lem:Qreducible},
+\begin{equation}\label{eq:atomerror}
+\left|\frac{G_k(f)-P_k(f)}{V_k(f)}\right|
+\le2k\beta_M+k(1-\alpha_d)^\ell
++kA_{n,k}\frac{R_\ell}{M-1}.
+\end{equation}
+For $d=1$, the left side is at most $k\beta_M$.
+Consequently, for every fixed $d\ge1$ and $k\ge2$,
+\begin{equation}\label{eq:atomprimitive}
+\frac{G_k(f)-P_k(f)}{V_k(f)}=o_{d,k}(1)
+\end{equation}
+uniformly as $M\to\infty$.
+\end{proposition}
+
+\begin{proof}
+For one column, discard the events that its constant or degree-$d$
+coefficient is zero. Their combined probability is at most
+$2\beta_M$ by Lemma~\ref{lem:decreasing}. Outside this boundary, the
+column has positive constant coefficient and degree $d$.
+
+By Lemma~\ref{lem:atomfacts}, every atomic such column is primitive;
+if it is primitive but not atomic, it is rationally reducible.
+Hence the probability that its primitive and atomic indicators differ
+is bounded by $2\beta_M$ plus \eqref{eq:Qerror}. A union bound over
+columns bounds the symmetric difference between the events
+``all primitive'' and ``all atomic,'' proving \eqref{eq:atomerror}.
+No independence between columns is used.
+
+When $d=1$, every nonconstant column is atomic exactly when primitive:
+a linear factorization can have only one positive-degree factor, so
+the other factor divides the content. This includes $x$. Only constant
+columns can cause a discrepancy, and each has probability at most
+$\beta_M$ because its linear coefficient is zero.
+
+For $d\ge2$, first fix $\ell$ large enough to make the exponential term
+small, and then let $M$ grow. The primes, and hence $R_\ell$, stay fixed
+in this limit. This proves the asserted uniformity.
+\end{proof}
+
+\begin{remark}[The two counting events need not contain one another]
+Prime constants are atoms but not primitive, whereas the constant
+polynomial $1$ is primitive but not an atom. Accordingly, one cannot
+replace the symmetric-difference argument above by an unconditional
+inclusion between the two sets of decompositions. For example, direct
+linear counting gives
+\[
+\begin{array}{c|rrr}
+f&G_2(f)&P_2(f)&V_2(f)\\\hline
+2+30x&31&33&93\\
+30+2x&49&33&93
+\end{array}
+\]
+These finite boundary effects are included in the error term.
+\end{remark}
+
+\Needspace{12\baselineskip}
+\section{Completion of the asymptotic formula}\label{sec:proof}
+
+The preceding estimates make the order of limits explicit. With the
+notation already defined, if $d\ge2$ and
+\[
+M-1\ge2k\max(q_y,R_\ell),
+\]
+Propositions~\ref{prop:primitive} and \ref{prop:comparison} give
+\begin{equation}\label{eq:completeerror}
+\begin{aligned}
+\left|\frac{G_k(f)}{V_k(f)}-\Sseries_{n,k}(C)\right|
+\le{}&3k\beta_M+(k^{n+1}+k)T_n(y)\\
+&+k\left(1-\frac1{4d}\right)^\ell
++A_{n,k}\frac{q_y+kR_\ell}{M-1}.
+\end{aligned}
+\end{equation}
+For $d=1$, the sharper bound is
+\begin{equation}\label{eq:linearerror}
+\left|\frac{G_k(f)}{V_k(f)}-\Sseries_{2,k}(C)\right|
+\le2k\beta_M+(k^3+k)T_2(y)
++A_{2,k}\frac{q_y}{M-1},
+\end{equation}
+provided $M-1\ge2kq_y$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Convergence and \eqref{eq:positive} were proved in
+Proposition~\ref{prop:product}.
+Fix $d,k$ and $\varepsilon>0$. First choose the prime cutoff $y$ so
+that the $T_n(y)$ term in \eqref{eq:completeerror} is small. For
+$d\ge2$, next choose $\ell$ and then a fixed set of $\ell$ sufficiently
+large distinct primes so that the exponential term is small.
+Finally choose $M$ large enough for the displayed size hypotheses and
+for all remaining terms to be small. None of these choices depends
+on the largest coefficient, on the aspect ratios, or on the target
+content. For $d=1$, use \eqref{eq:linearerror} without the second
+prime set.
+
+This proves the uniform absolute asymptotic \eqref{eq:main}. Since
+$\Sseries_{n,k}(C)\ge3/(4\zeta(n)^k)$ for every content, division by
+the main-term factor gives the uniform relative asymptotic. Taking
+the absolute error below half of this lower bound gives
+\[
+\frac{G_k(f)}{V_k(f)}\ge\frac{3}{8\zeta(n)^k}>0
+\]
+for all sufficiently large $M$, proving existence of $k$-atom
+representations.
+\end{proof}
+
+The use of fixed prime cutoffs is deliberate. Finite-modulus
+equidistribution alone does not justify allowing the modulus to grow
+arbitrarily with the coefficient lengths. Here the large-prime error
+is removed separately, through the shortest-row estimate, before any
+claim of uniform asymptotics is made.
+
+\section{Content dependence and averaging}\label{sec:consequences}
+
+\begin{corollary}[Two atomic summands]\label{cor:two}
+For fixed $d\ge1$ and targets with all coefficients tending to infinity,
+\begin{equation}\label{eq:two}
+G_2(f)=\left(
+\prod_{p\mid C}(1-p^{-(d+1)})
+\prod_{p\nmid C}(1-2p^{-(d+1)})+o_d(1)
+\right)\prod_{i=0}^d(c_i+1),
+\end{equation}
+uniformly in the relative coefficient sizes.
+\end{corollary}
+
+\begin{proof}
+For $k=2$, formula \eqref{eq:rho} equals $1-p^{-n}$ when $p\mid C$
+and $1-2p^{-n}$ otherwise. Apply Theorem~\ref{thm:main}.
+\end{proof}
+
+The singular series depends only on the prime divisors of $C$, not on
+their exponents. Its dependence on a newly introduced content prime
+also changes with the parity of $k$:
+\begin{equation}\label{eq:parityeffect}
+\rho_{p,n,k}(p\mid C)-\rho_{p,n,k}(p\nmid C)
+=(-1)^kp^{-n(k-1)}.
+\end{equation}
+For instance, with $u=p^{-n}$, the three-summand local factors are
+$1-3u+2u^2$ when $p\mid C$ and $1-3u+3u^2$ otherwise.
+
+\begin{example}[Two different target limits]\label{ex:content}
+Fix $d\ge1$ and put $n=d+1$. For
+\[
+f_H(x)=\sum_{i=0}^d(H+i)x^i,
+\]
+the content is one, because the first two coefficients are consecutive.
+Hence
+\[
+\frac{G_2(f_H)}{V_2(f_H)}\longrightarrow
+\prod_p(1-2p^{-n}).
+\]
+For the targets
+\[
+h_H(x)=H!\,(1+x+\cdots+x^d),
+\]
+every prime at most $H$ divides the content. Formula \eqref{eq:two}
+and the uniform product-tail estimate give
+\[
+\frac{G_2(h_H)}{V_2(h_H)}\longrightarrow
+\prod_p(1-p^{-n})=\zeta(n)^{-1}.
+\]
+These are distinct limits, since each factor $1-2p^{-n}$ is strictly
+smaller than $1-p^{-n}$. Thus the normalized count has no single
+content-independent limit for arbitrary target sequences.
+\end{example}
+
+Averaging the target restores a simpler value. The next result averages
+the \emph{normalized count for each target}; it does not replace this
+average by a ratio of two separately summed counts.
+
+\begin{theorem}[Average over target boxes]\label{thm:average}
+Fix $d\ge1$, $k\ge2$, and let $c_i$ be independent and uniform on
+$\{1,\ldots,H_i\}$. Put $f=\sum_i c_ix^i$ and $C=\gcd_i c_i$.
+As $\min_iH_i\to\infty$,
+\begin{equation}\label{eq:averages}
+\Ex\,\Sseries_{d+1,k}(C)\longrightarrow\zeta(d+1)^{-k},
+\qquad
+\Ex\,\frac{G_k(f)}{V_k(f)}\longrightarrow\zeta(d+1)^{-k}.
+\end{equation}
+No restriction on the ratios of the $H_i$ is required.
+\end{theorem}
+
+\begin{proof}
+Fix $y\ge2$. As every $H_i$ grows, the target coefficient vector
+becomes uniform modulo $q_y$. CRT makes its reductions at the primes
+$p\le y$ independent in the limiting law. At a single prime,
+\[
+\Prob(p\mid C)\longrightarrow p^{-n}.
+\]
+Taking the expectation of \eqref{eq:rho}, the correction term vanishes:
+\[
+\Ex\,\rho_{p,n,k}(C)\longrightarrow
+(1-p^{-n})^k,
+\]
+because $p^n\cdot p^{-n}-1=0$. Independence in the limiting finite
+residue law therefore gives
+\[
+\Ex\prod_{p\le y}\rho_{p,n,k}(C)
+\longrightarrow\prod_{p\le y}(1-p^{-n})^k.
+\]
+The uniform bound \eqref{eq:producttail} permits $y\to\infty$,
+proving the first limit in \eqref{eq:averages}.
+
+For the second, fix $\varepsilon>0$ and take the threshold $M_0$ in
+Theorem~\ref{thm:main}. The probability that
+$\min_i(c_i+1)<M_0$ is at most
+\[
+\sum_{i=0}^d\frac{M_0-1}{H_i},
+\]
+which tends to zero. Outside this event the difference between the
+normalized count and its singular series is at most $\varepsilon$;
+on the event it is at most one, since both quantities lie in $[0,1]$.
+Their expectations therefore differ by a quantity tending to zero.
+\end{proof}
+
+The main term thus separates two effects: the product of binomial
+coefficients counts nonnegative coefficient allocations, while the
+Euler product records simultaneous primitivity under the prescribed
+sum. Rational reducibility and exceptional constant or degree-drop
+summands contribute only to the vanishing error in the fixed-$d$,
+fixed-$k$ limit. This gives both a uniform count for each target and
+an arithmetic explanation of the simpler average density.
+
+\section*{Acknowledgment}
+AI tools like GPT-5.5, GPT-5.6, GPT-6 assisted mathematical exploration, proof
+checking, and paper preparation.
+
+\begin{thebibliography}{9}
+
+\bibitem{Conrad}
+K. Conrad,
+\emph{Finite fields}, expository notes.
+\url{https://kconrad.math.uconn.edu/blurbs/galoistheory/finitefields.pdf}.
+
+\bibitem{GottiPolo}
+F. Gotti and H. Polo,
+\emph{On the arithmetic of polynomial semidomains},
+Forum Math. \textbf{35} (2023), no.~5, 1179--1197.
+\href{https://doi.org/10.1515/forum-2022-0091}{doi:10.1515/forum-2022-0091}.
+
+\bibitem{KaplanPolo}
+N. Kaplan and H. Polo,
+\emph{A Goldbach theorem for Laurent series semidomains},
+New York J. Math. \textbf{31} (2025), 1409--1426.
+\url{https://nyjm.albany.edu/j/2025/31-53v.pdf}.
+
+\bibitem{LiaoPolo}
+S. Liao and H. Polo,
+\emph{A Goldbach theorem for Laurent polynomials with positive integer coefficients},
+Amer. Math. Monthly \textbf{131} (2024), no.~8, 704--711.
+\href{https://doi.org/10.1080/00029890.2024.2363725}{doi:10.1080/00029890.2024.2363725}.
+
+\bibitem{Nymann}
+J. E. Nymann,
+\emph{On the probability that $k$ positive integers are relatively prime},
+J. Number Theory \textbf{4} (1972), no.~5, 469--473.
+\href{https://doi.org/10.1016/0022-314X(72)90038-8}{doi:10.1016/0022-314X(72)90038-8}.
+
+\bibitem{Pollack}
+P. Pollack,
+\emph{On polynomial rings with a Goldbach property},
+Amer. Math. Monthly \textbf{118} (2011), no.~1, 71--77.
+\href{https://doi.org/10.4169/amer.math.monthly.118.01.071}{doi:10.4169/amer.math.monthly.118.01.071}.
+
+\end{thebibliography}
+\end{document}
