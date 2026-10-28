@@ -16,8 +16,9 @@ We establish explicit Euler-product asymptotic formulas for decompositions into 
 
 ## Research Status
 
-Independent research preprint.
+Independent research preprint, an extension of my MIT-PRIMES work.
 
 ## AI Assistance
 
-AI-assisted tools were used during mathematical exploration, proof checking, and manuscript preparation.
+AI tools like GPT-5.5, GPT-5.6, GPT-6 assisted mathematical exploration, proof
+checking, and paper preparation.
